@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: max-content;
+          margin-top: 20px;
+        }
+        .button {
+        font-size: 16px;
+        letter-spacing: 2px;
+        font-weight: 400 !important;
+        background-color: rgba(255, 255, 128, .5);
+        color: rgb(0, 0, 0);
+        padding: 23px 50px;
+        margin: auto;
+        text-align: center;
+        display: inline-block !important;
+        text-decoration: none;
+        border: 0px;
+        width: max-content;
+        cursor: pointer;
+        transition: all 0.3s 0s ease-in-out;
+        border-radius: 18px;
+    }
+
+    .button:hover {
+        transform: scale(1.04, 1);
+        background-color: rgb(255, 255, 128);
+        text-decoration: none;
+    }
+    html{
+        background-color: rgba(0, 0, 0);
+        color: white;
+    }
+    </style>
+</head>
+<body>
+        
+    <h1>Test Library</h1>
+
+    <div class="center">
+        <button class="button" onclick="MetamaskConnect()"> Connect With Metamask </button>
+    </div>
+    <div class="center">
+        <button class="button" onclick="WalletConnect()"> Connect With WalletConnect</button>
+    </div>
+    <h2> Pay With ETH </h2>
+    <div class="center">
+        <button class="button" onclick="PayWithEHT()"> Pay With ETH </button>
+    </div>
+
+    <H2> Pay With ERC20 Token</H2>
+    <div class="center">
+        <button class="button" onclick="PayWithToken()"> Pay With Token</button>
+    </div>
+
+    <script src="./dist/main.js"></script>
+    <script>
+        var signer;
+        const MetamaskConnect = async()=>{
+            signer = await abierto.MetamaskConnect();
+            console.log(signer);
+        }
+        const WalletConnect = async()=>{
+            signer = await abierto.WalletConnect();
+            console.log(signer.getAddress());
+        }
+        const PayWithEHT = async()=>{
+            var res = await abierto.PayWithETH('0xfe1167Cb42d0a06f0C2c64d4fE2708e12328e22E', '0.0001');
+            console.log(res);
+        }
+        const PayWithToken = async()=>{
+            var res = await abierto.PayWithToken('0xfe1167Cb42d0a06f0C2c64d4fE2708e12328e22E', "0x01BE23585060835E02B77ef475b0Cc51aA1e0709","1000000000000000000")
+            console.log(res);
+        }
+    </script>
+</body>
+</html>
