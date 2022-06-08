@@ -24,7 +24,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 40%;
     border-radius: 12px;
 }
 
@@ -91,6 +91,8 @@
 	border:solid 1px;
 	border-radius:12px;
 	padding:5px;
+    width: max-content;
+    text-align: center;
 }
 
 .symbol_span{

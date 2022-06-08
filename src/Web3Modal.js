@@ -4,8 +4,12 @@ import WalletConnect from "./WalletConnect";
 import PayWithETH from "./PayWithETH";
 import PayWithToken from "./PayWithToken";
 
+
+var receiver = null;
+var amount = null;
+var nbrCoins = 0;
 const Web3Button = ()=>{
-    var web3Button = document.getElementById('Web3Button');
+    const web3Button = document.getElementById('Web3Button');
     var Button = document.createElement('button');
     Button.setAttribute('class', "Web3Button")
     Button.innerHTML = "Web3Button";
@@ -52,6 +56,7 @@ const Web3Modal = async()=>{
         const res = await MetamaskConnect();
         if (res.signer) {
             document.body.removeChild(Modal);
+            getMetadata()
             Pay();
         }else{
             console.log(res.error);
@@ -65,6 +70,7 @@ const Web3Modal = async()=>{
         const res = await WalletConnect();
         if (res.signer) {
             document.body.removeChild(Modal);
+            getMetadata()
             Pay();
         }else{
             console.log(res.error);
@@ -88,7 +94,7 @@ const Web3Modal = async()=>{
 
 
 const Pay = ()=>{
-    console.log("Pay");
+    const web3Button = document.getElementById('Web3Button');
     var Modal = document.createElement('div');
     Modal.setAttribute('class', "Web3Modal");
     document.body.appendChild(Modal);
@@ -122,22 +128,46 @@ const Pay = ()=>{
     var symbol = document.createElement("span");
     symbol.setAttribute("class", "symbol_span");
 
-    var coin = document.createElement('button');
-    coin.setAttribute('class', "Web3Button");
+    var Eth = document.createElement('button');
+    Eth.setAttribute('class', "Web3Button");
     price.innerHTML = '0.001';
-    symbol.innerHTML = 'ETH';
-    coin.appendChild(symbol);
-    coin.appendChild(price);
-    coin.addEventListener('click', async()=>{
-        console.log("ETH");
+    symbol.innerHTML = "Eth";
+    Eth.appendChild(symbol);
+    Eth.appendChild(price);
+    Eth.addEventListener('click', async()=>{
+        PayWithETH(receiver, amount);
     })
-    
+    const listToken = [];
+    for (let index = 0; index < nbrCoins; index++) {
+        var price = document.createElement("span");
+        price.setAttribute("class", "price_span");
 
-    
+        var symbol = document.createElement("span");
+        symbol.setAttribute("class", "symbol_span");
+
+        var coin = document.createElement('button');
+        coin.setAttribute('class', "Web3Button");
+        price.innerHTML = web3Button.getAttribute("data-token"+index+"-price");
+        symbol.innerHTML = web3Button.getAttribute("data-token"+index+"-symbol");
+        coin.appendChild(symbol);
+        coin.appendChild(price);
+        coin.addEventListener('click', async()=>{
+            var _token = web3Button.getAttribute("data-token"+index+"-address");
+            var _price = web3Button.getAttribute("data-token"+index+"-price");
+            console.log(_token, _price);
+            PayWithToken(receiver, _token, _price);
+        })
+        listToken[index] = coin;
+    }
+
     ModalContent.appendChild(head);
     ModalContent.appendChild(hr);
-    ModalContent.appendChild(coin);
-    
+    ModalContent.appendChild(Eth);
+    for (let index = 0; index < listToken.length; index++) {
+        ModalContent.appendChild(listToken[index]);
+    }
+
+
     Modal.appendChild(ModalContent);
 
     window.addEventListener('click', (event)=>{
@@ -146,6 +176,14 @@ const Pay = ()=>{
         }
     });
 
+}
+
+const getMetadata = ()=>{
+    const web3Button = document.getElementById('Web3Button');
+    receiver = web3Button.dataset.receiver;
+    amount = web3Button.dataset.amount;
+    nbrCoins = web3Button.dataset.tokenNumber;
+    console.log(receiver, amount, parseInt(nbrCoins));
 }
 
 export default Web3Button;
