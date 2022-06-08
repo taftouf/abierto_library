@@ -79,3 +79,22 @@
     border-style: inset;
     border-width: 1px;
 } 
+
+#Web3Button > .Web3Button{
+    width: 200px;
+    text-align: center;
+}
+
+.price_span{
+    position:relative;
+	float:right;
+	border:solid 1px;
+	border-radius:12px;
+	padding:5px;
+}
+
+.symbol_span{
+    position:relative;
+	float:left;
+	padding:5px;
+}

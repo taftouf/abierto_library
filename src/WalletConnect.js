@@ -9,10 +9,10 @@ const WalletConnect = async()=>{
         await provider.enable();
         const web3Provider = new providers.Web3Provider(provider);
         const signer = web3Provider.getSigner();
-        return signer;
+        return {signer:signer};
     } catch (error) {
-        console.log(error);   
+        return {signer:false, error:error};
     }
-    return -1;
+    
 }
 export default WalletConnect;

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="./dist/main.js"></script>
     <style>
         .center {
           display: flex;
@@ -42,9 +43,9 @@
     }
     </style>
 </head>
-<body>
+<body onload="abierto.Web3Button()">
         
-    <h1>Test Library</h1>
+    <h1 class="center">Test Library</h1>
 
     <div class="center">
         <button class="button" onclick="MetamaskConnect()"> Connect With Metamask </button>
@@ -52,17 +53,22 @@
     <div class="center">
         <button class="button" onclick="WalletConnect()"> Connect With WalletConnect</button>
     </div>
-    <h2> Pay With ETH </h2>
+
+    <h2 class="center"> Web3Button </h2>
+    <div id="Web3Button" class="center">
+       <!--  -->
+    </div>
+
+    <h2 class="center"> Pay With ETH </h2>
     <div class="center">
         <button class="button" onclick="PayWithEHT()"> Pay With ETH </button>
     </div>
 
-    <H2> Pay With ERC20 Token</H2>
+    <H2 class="center"> Pay With ERC20 Token</H2>
     <div class="center">
         <button class="button" onclick="PayWithToken()"> Pay With Token</button>
     </div>
 
-    <script src="./dist/main.js"></script>
     <script>
         var signer;
         const MetamaskConnect = async()=>{
@@ -80,6 +86,11 @@
         const PayWithToken = async()=>{
             var res = await abierto.PayWithToken('0xfe1167Cb42d0a06f0C2c64d4fE2708e12328e22E', "0x01BE23585060835E02B77ef475b0Cc51aA1e0709","1000000000000000000")
             console.log(res);
+        }
+
+        const test = async()=>{
+            signer = await abierto.MetamaskConnect();
+            console.log(signer);
         }
     </script>
 </body>
